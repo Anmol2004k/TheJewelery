@@ -1,0 +1,6 @@
+{
+  "name": "The Jewel Studio",
+  "description": "A premium, modern, fully responsive e-commerce website for a luxury jewellery brand.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
