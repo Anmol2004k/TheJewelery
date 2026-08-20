@@ -6,7 +6,7 @@ import { ProductCard } from '../components/ProductCard';
 import { Filter, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-const CATEGORIES: Category[] = ['All', 'Rings', 'Necklaces', 'Earrings', 'Bracelets'];
+const CATEGORIES: Category[] = ['All', 'Rings', 'Necklaces', 'Earrings', 'Bracelets', 'Watches', 'Gifts'];
 const SORTS = ['Featured', 'Price: Low to High', 'Price: High to Low', 'Newest'];
 
 export function Shop() {

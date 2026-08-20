@@ -34,24 +34,21 @@ const TRUST_ITEMS = [
   }
 ];
 
+const CATEGORIES = [
+  { name: 'Rings', image: PRODUCTS.find(p => p.category === 'Rings')?.image },
+  { name: 'Necklaces', image: PRODUCTS.find(p => p.category === 'Necklaces')?.image },
+  { name: 'Earrings', image: PRODUCTS.find(p => p.category === 'Earrings')?.image },
+  { name: 'Bracelets', image: PRODUCTS.find(p => p.category === 'Bracelets')?.image },
+  { name: 'Watches', image: PRODUCTS.find(p => p.category === 'Watches')?.image },
+  { name: 'Gifts', image: PRODUCTS.find(p => p.category === 'Gifts')?.image },
+];
+
 export function Home() {
   const featuredProducts = PRODUCTS.filter((p) => p.featured).slice(0, 4);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Subtle parallax for Hero Image
-      gsap.to('.hero-bg', {
-        yPercent: 15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-
       // Stagger reveal for Trust Bar
       gsap.from('.trust-item', {
         y: 40,
@@ -70,149 +67,103 @@ export function Home() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col" ref={containerRef}>
-      {/* Hero Section */}
-      <section className="hero-section relative h-[90vh] w-full flex items-center justify-center overflow-hidden bg-cream pt-20">
-        <div className="absolute inset-0 z-0">
+    <div className="w-full flex flex-col pt-36 pb-12" ref={containerRef}>
+      
+      {/* Circular Categories (Horizontally Scrollable) */}
+      <section className="w-full bg-white pb-6 pt-2 overflow-x-auto scrollbar-hide">
+        <div className="flex px-4 gap-4 md:justify-center min-w-max">
+          {CATEGORIES.map((cat, index) => (
+            <Link key={cat.name} to={`/shop?category=${cat.name}`} className="flex flex-col items-center gap-2 group">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full p-[2px] border border-gray-200 group-hover:border-gold transition-colors">
+                <div className="w-full h-full rounded-full overflow-hidden bg-cream">
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+              </div>
+              <span className="text-[10px] sm:text-xs font-medium text-charcoal">{cat.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Main Hero Banner */}
+      <section className="px-4 pb-8 w-full max-w-7xl mx-auto">
+        <div className="relative w-full h-[60vh] sm:h-[70vh] rounded-2xl overflow-hidden shadow-lg group">
           <img
             src={IMAGES.hero}
             alt="Luxury Diamond Necklace"
             referrerPolicy="no-referrer"
-            className="hero-bg w-full h-[120%] object-cover object-center opacity-90 -top-[10%]"
+            className="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105"
           />
-          {/* Subtle gradient overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cream/80 via-cream/40 to-transparent sm:bg-none sm:bg-black/20" />
-        </div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 w-full flex flex-col items-center sm:items-start text-center sm:text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-xl bg-white/80 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none p-8 sm:p-0 rounded-lg sm:rounded-none"
-          >
-            <h2 className="text-sm md:text-base uppercase tracking-[0.3em] text-royal font-semibold mb-4">
-              The New Collection
-            </h2>
-            <h1 className="font-playfair text-4xl md:text-6xl lg:text-7xl text-charcoal sm:text-white leading-tight mb-6 drop-shadow-md sm:drop-shadow-lg">
-              Elegance in <br/><span className="text-gold italic">Every Detail</span>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          
+          <div className="absolute inset-0 p-6 sm:p-12 flex flex-col justify-end items-center sm:items-start text-center sm:text-left z-10">
+            <h2 className="text-gold font-playfair text-xl sm:text-2xl mb-2 italic">This season,</h2>
+            <h1 className="font-playfair text-3xl sm:text-5xl lg:text-6xl text-white font-bold leading-tight mb-6 drop-shadow-md">
+              Gift Elegance <br className="hidden sm:block"/> to Your Loved Ones
             </h1>
-            <p className="text-charcoal sm:text-white/90 text-sm md:text-base max-w-md mb-8 leading-relaxed font-light drop-shadow-sm">
-              Discover our latest curation of masterfully crafted pieces, designed to celebrate life's most precious moments with timeless brilliance.
-            </p>
             <Link to="/shop">
-              <Button size="lg" className="w-full sm:w-auto bg-gold hover:bg-gold-light border-none text-charcoal font-semibold shadow-lg">
-                Explore Collection
+              <Button size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-charcoal rounded-full px-8 py-3 font-semibold transition-all shadow-lg backdrop-blur-sm">
+                SHOP NOW
               </Button>
             </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="font-playfair text-3xl md:text-4xl text-charcoal mb-4">Shop by Category</h2>
-            <div className="w-16 h-[1px] bg-gold mx-auto" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {['Rings', 'Necklaces', 'Earrings', 'Bracelets'].map((cat, index) => (
-              <motion.div
-                key={cat}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group relative aspect-[3/4] overflow-hidden bg-cream cursor-pointer"
-              >
-                <Link to={`/shop?category=${cat}`} className="block w-full h-full">
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors z-10" />
-                  <img
-                    src={PRODUCTS.find(p => p.category === cat)?.image}
-                    alt={cat}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center z-20">
-                    <h3 className="font-playfair text-2xl text-white bg-black/30 px-6 py-3 backdrop-blur-sm border border-white/20">
-                      {cat}
-                    </h3>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="py-24 bg-beige">
+      <section className="py-12 bg-cream">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-            <div>
-              <h2 className="font-playfair text-3xl md:text-4xl text-charcoal mb-4">Featured Pieces</h2>
-              <div className="w-16 h-[1px] bg-gold" />
-            </div>
-            <Link to="/shop" className="hidden md:inline-flex text-royal hover:text-gold uppercase tracking-widest text-sm font-semibold transition-colors mt-6 md:mt-0">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="font-playfair text-2xl md:text-3xl text-charcoal font-bold">Featured Pieces</h2>
+            <Link to="/shop" className="text-royal hover:text-gold uppercase tracking-widest text-xs sm:text-sm font-semibold transition-colors">
               View All
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <div key={product.id} className="h-full">
+                <ProductCard product={product} />
+              </div>
             ))}
-          </div>
-          
-          <div className="mt-12 text-center md:hidden">
-            <Link to="/shop">
-              <Button variant="outline" className="w-full">View All Pieces</Button>
-            </Link>
           </div>
         </div>
       </section>
 
       {/* Brand Story Promo */}
-      <section className="py-24 bg-royal-dark text-center px-4">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="border border-white/20 p-8 md:p-16 relative"
-          >
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-royal-dark px-4">
-              <div className="w-8 h-8 rounded-full border-2 border-gold flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-gold" />
-              </div>
-            </div>
-            <h2 className="font-playfair text-3xl md:text-5xl text-gold mb-6">The Art of Fine Jewellery</h2>
-            <p className="text-white/80 leading-relaxed font-light mb-8 max-w-xl mx-auto">
-              For over two decades, The Jewel Studio has been synonymous with unparalleled craftsmanship and ethically sourced gemstones. Our master artisans blend traditional techniques with contemporary design to create pieces that transcend generations.
+      <section className="py-16 px-4 max-w-7xl mx-auto w-full">
+        <div className="relative rounded-2xl overflow-hidden bg-royal-dark text-center shadow-xl">
+          <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1584302179602-e4c3d3fd629d?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay" />
+          <div className="relative z-10 p-8 sm:p-16 md:p-24 flex flex-col items-center">
+            <h2 className="font-playfair text-3xl md:text-5xl text-gold mb-6 font-bold">The Art of Fine Jewellery</h2>
+            <p className="text-white/90 leading-relaxed font-light mb-8 max-w-2xl mx-auto text-sm sm:text-base">
+              For over two decades, The Jewel Studio has been synonymous with unparalleled craftsmanship and ethically sourced gemstones. Our master artisans blend traditional techniques with contemporary design.
             </p>
             <Link to="/about">
-              <span className="text-white uppercase tracking-widest text-sm font-semibold hover:text-gold transition-colors border-b border-white hover:border-gold pb-1">
+              <Button className="bg-gold hover:bg-gold-light text-charcoal rounded-full px-8 font-semibold border-none">
                 Discover Our Heritage
-              </span>
+              </Button>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Trust Bar */}
-      <section className="trust-section py-12 bg-white border-b border-gray-100">
+      <section className="trust-section py-16 bg-white border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {TRUST_ITEMS.map((item, index) => (
-              <div
-                key={index}
-                className="trust-item flex flex-col items-center text-center px-4"
-              >
-                <item.icon className="w-8 h-8 text-gold mb-4" strokeWidth={1.5} />
-                <h3 className="font-playfair font-semibold text-charcoal mb-2 text-lg">{item.title}</h3>
-                <p className="text-sm text-gray-500 font-light leading-relaxed max-w-[200px]">
+              <div key={index} className="trust-item flex flex-col items-center text-center px-2">
+                <div className="w-12 h-12 bg-cream rounded-full flex items-center justify-center mb-4">
+                  <item.icon className="w-6 h-6 text-gold" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-playfair font-semibold text-charcoal mb-2 text-sm sm:text-base">{item.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-500 font-light leading-relaxed max-w-[200px]">
                   {item.description}
                 </p>
               </div>
@@ -222,12 +173,12 @@ export function Home() {
       </section>
 
       {/* Customer Testimonials */}
-      <section className="py-24 bg-cream">
+      <section className="py-16 sm:py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 sm:mb-16">
             <h2 className="font-playfair text-3xl md:text-4xl text-charcoal mb-4">Worn With Love</h2>
             <div className="w-16 h-[1px] bg-gold mx-auto mb-6" />
-            <p className="text-gray-500 font-light max-w-xl mx-auto">
+            <p className="text-gray-500 font-light max-w-xl mx-auto text-sm sm:text-base">
               Real moments from our clients, showcasing the elegance of our pieces in everyday luxury.
             </p>
           </div>
@@ -240,29 +191,29 @@ export function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="flex flex-col bg-white border border-gray-100"
+                className="flex flex-col bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="relative aspect-square overflow-hidden bg-gray-50">
                   <img
                     src={testimonial.image}
                     alt={`${testimonial.name} wearing ${testimonial.productInfo}`}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] uppercase tracking-widest text-charcoal shadow-sm">
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 text-[10px] uppercase tracking-widest text-charcoal shadow-sm rounded-sm font-medium">
                     {testimonial.productInfo}
                   </div>
                 </div>
-                <div className="p-8 flex flex-col flex-grow text-center items-center">
+                <div className="p-6 sm:p-8 flex flex-col flex-grow text-center items-center">
                   <div className="flex gap-1 text-gold mb-4">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star key={star} className="w-4 h-4 fill-current" />
                     ))}
                   </div>
-                  <p className="font-playfair text-lg text-charcoal leading-relaxed mb-6 italic text-center flex-grow">
-                    {testimonial.text}
+                  <p className="font-playfair text-base sm:text-lg text-charcoal leading-relaxed mb-6 italic text-center flex-grow">
+                    "{testimonial.text}"
                   </p>
-                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-widest mt-auto">
+                  <div className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest mt-auto">
                     — {testimonial.name}
                   </div>
                 </div>
@@ -273,7 +224,9 @@ export function Home() {
       </section>
 
       {/* Instagram Section */}
-      <InstagramSection />
+      <div className="pt-12">
+        <InstagramSection />
+      </div>
     </div>
   );
 }

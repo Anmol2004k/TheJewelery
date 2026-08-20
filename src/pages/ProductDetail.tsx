@@ -108,51 +108,61 @@ export function ProductDetail() {
                   {formatPrice(product.price)}
                 </span>
                 <div className="flex items-center text-gold">
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <span className="text-gray-500 text-sm ml-2">(12 Reviews)</span>
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`w-4 h-4 ${i < Math.floor(product.rating || 5) ? 'fill-current' : 'text-gray-300'}`} 
+                    />
+                  ))}
+                  <span className="text-gray-500 text-sm ml-2">({product.rating || 5.0} / 5.0)</span>
                 </div>
               </div>
-              <p className="text-gray-600 leading-relaxed font-light mb-8">
+              <p className="text-gray-600 leading-relaxed font-light mb-6">
                 {product.description}
               </p>
+
+              {product.from && product.to && (
+                <div className="mb-8 p-4 bg-cream/50 rounded border border-gold/20 italic text-gray-600">
+                  <span className="font-medium">From:</span> {product.from} <br />
+                  <span className="font-medium">To:</span> {product.to}
+                </div>
+              )}
             </motion.div>
 
-            <div className="flex items-center gap-4 mb-8">
-              <div className="flex items-center border border-gray-300 h-12">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 mb-8">
+              <div className="flex items-center border border-gray-300 h-12 w-full sm:w-auto justify-center">
                 <button
-                  className="px-4 text-charcoal hover:text-gold transition-colors"
+                  className="px-4 py-2 text-charcoal hover:text-gold transition-colors"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 >
                   -
                 </button>
                 <span className="w-12 text-center text-charcoal">{quantity}</span>
                 <button
-                  className="px-4 text-charcoal hover:text-gold transition-colors"
+                  className="px-4 py-2 text-charcoal hover:text-gold transition-colors"
                   onClick={() => setQuantity(quantity + 1)}
                 >
                   +
                 </button>
               </div>
-              <Button
-                onClick={handleAddToCart}
-                className="flex-grow h-12 bg-royal hover:bg-royal-dark text-white uppercase tracking-widest text-sm"
-              >
-                Add to Cart
-              </Button>
-              <button
-                onClick={() => toggleWishlist(product)}
-                className="h-12 w-12 flex items-center justify-center border border-gray-300 hover:border-gold transition-colors"
-              >
-                <Heart
-                  className={`w-5 h-5 transition-colors ${
-                    isWishlisted ? 'fill-gold text-gold' : 'text-charcoal hover:text-gold'
-                  }`}
-                />
-              </button>
+              <div className="flex items-center gap-4 w-full sm:w-auto flex-grow">
+                <Button
+                  onClick={handleAddToCart}
+                  className="flex-grow h-12 bg-royal hover:bg-royal-dark text-white uppercase tracking-widest text-sm"
+                >
+                  Add to Cart
+                </Button>
+                <button
+                  onClick={() => toggleWishlist(product)}
+                  className="h-12 w-12 shrink-0 flex items-center justify-center border border-gray-300 hover:border-gold transition-colors"
+                >
+                  <Heart
+                    className={`w-5 h-5 transition-colors ${
+                      isWishlisted ? 'fill-gold text-gold' : 'text-charcoal hover:text-gold'
+                    }`}
+                  />
+                </button>
+              </div>
             </div>
 
             {/* Features */}

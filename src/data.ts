@@ -111,5 +111,87 @@ export const PRODUCTS: Product[] = [
     image: productBracelet,
     description: 'Intricately woven 18k yellow gold creating a substantial yet comfortable cuff. Inspired by vintage Italian craftsmanship.',
     featured: true,
+  },
+  {
+    id: '9',
+    name: 'Classic Gold Watch',
+    price: 450000,
+    category: 'Watches',
+    image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=600&auto=format&fit=crop',
+    description: 'A timeless timepiece featuring a solid 18k gold case and a genuine leather strap. Swiss automatic movement.',
+    rating: 4.8
+  },
+  {
+    id: '10',
+    name: 'Royal Blue Chronograph',
+    price: 520000,
+    category: 'Watches',
+    image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=600&auto=format&fit=crop',
+    description: 'Precision chronograph with a striking royal blue dial and stainless steel mesh band. Built for elegance and performance.',
+    rating: 4.9,
+    featured: true
+  },
+  {
+    id: '11',
+    name: 'Elegant Rose Gold Watch',
+    price: 380000,
+    category: 'Watches',
+    image: 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=600&auto=format&fit=crop',
+    description: 'Minimalist dial encased in beautifully polished rose gold. Perfect for daily wear or evening occasions.',
+    rating: 4.7
+  },
+  {
+    id: '12',
+    name: 'Minimal Silver Watch',
+    price: 290000,
+    category: 'Watches',
+    image: 'https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80&w=600&auto=format&fit=crop',
+    description: 'Ultra-thin silver case with a clean white dial and classic Roman numerals.',
+    rating: 4.5
+  },
+  {
+    id: '13',
+    name: 'Birthday Gift Box',
+    price: 15000,
+    category: 'Gifts',
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop',
+    description: 'A beautifully curated box of small luxuries perfect for celebrating a special birthday.',
+    rating: 4.9,
+    from: 'The Jewel Studio',
+    to: 'Someone Special'
+  },
+  {
+    id: '14',
+    name: 'Anniversary Gift Set',
+    price: 45000,
+    category: 'Gifts',
+    image: 'https://images.unsplash.com/photo-1577057864434-2e9ee6062f4c?q=80&w=600&auto=format&fit=crop',
+    description: 'Celebrate years of love with this premium anniversary set featuring a curated pairing of fine accessories.',
+    rating: 5.0,
+    from: 'With Love',
+    to: 'My Forever',
+    featured: true
+  },
+  {
+    id: '15',
+    name: 'Rakhi Gift Box',
+    price: 8500,
+    category: 'Gifts',
+    image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?q=80&w=600&auto=format&fit=crop',
+    description: 'A traditional yet modern gift box crafted specially for the sibling bond.',
+    rating: 4.8,
+    from: 'Your Loving Sister',
+    to: 'My Dear Brother'
+  },
+  {
+    id: '16',
+    name: 'Luxury Surprise Box',
+    price: 25000,
+    category: 'Gifts',
+    image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=600&auto=format&fit=crop',
+    description: 'An exquisite collection of small surprises, elegantly wrapped for that perfect moment.',
+    rating: 4.9,
+    from: 'Someone Special',
+    to: 'You'
   }
 ];

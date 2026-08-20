@@ -1,4 +1,4 @@
-export type Category = 'All' | 'Rings' | 'Necklaces' | 'Earrings' | 'Bracelets';
+export type Category = 'All' | 'Rings' | 'Necklaces' | 'Earrings' | 'Bracelets' | 'Watches' | 'Gifts';
 
 export interface Product {
   id: string;
@@ -9,6 +9,9 @@ export interface Product {
   description: string;
   isNew?: boolean;
   featured?: boolean;
+  rating?: number;
+  from?: string;
+  to?: string;
 }
 
 export interface CartItem {
