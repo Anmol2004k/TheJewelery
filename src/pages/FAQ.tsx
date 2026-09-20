@@ -5,24 +5,24 @@ import { motion, AnimatePresence } from 'motion/react';
 
 const FAQS = [
   {
-    question: "Are your diamonds ethically sourced and conflict-free?",
-    answer: "Absolutely. At The Jewel Studio, we adhere to a strict zero-tolerance policy toward conflict diamonds. We only purchase diamonds through respected suppliers who, like us, proudly adhere to and enforce the standards established by the Kimberley Process."
+    question: "What materials are used in your jewellery?",
+    answer: "Our collections feature premium artificial and imitation fashion jewellery crafted with high-grade 18k micron gold plating, hypoallergenic skin-safe alloy bases, and brilliant AAA+ cubic zirconia crystals with anti-tarnish protective sealing."
   },
   {
-    question: "Do you offer international shipping for your fine jewellery?",
-    answer: "Yes, we ship our luxury jewellery worldwide. All international orders are shipped via insured express couriers. Please note that customs duties and taxes are the responsibility of the recipient."
+    question: "How long does shipping and delivery take?",
+    answer: "Delivery will take 5 days from the date of dispatch. Each order is packed in a protective cushioned box to prevent transit damage, and real-time tracking details are provided upon shipment."
   },
   {
-    question: "How should I care for my diamond and gold jewellery?",
-    answer: "We recommend cleaning your diamond pieces with a soft brush and mild soapy water. For gold jewellery, avoid harsh chemicals and store them in the original soft-lined box provided by The Jewel Studio. You can read more on our dedicated Jewellery Care page."
+    question: "How should I care for my artificial and imitation jewellery?",
+    answer: "To maintain maximum luster and longevity, keep your imitation jewellery away from direct water, perfumes, lotions, and harsh household chemicals. Store each piece in an airtight ziplock bag or soft fabric pouch when not in use."
   },
   {
-    question: "Can I return or exchange an engagement ring?",
-    answer: "We offer a 30-day return policy for most of our pieces, including engagement rings, provided they are in pristine, unworn condition with all original tags and documentation. Bespoke or customized pieces are final sale."
+    question: "What is your return and exchange policy?",
+    answer: "Returns and replacements are accepted if a parcel unboxing video is submitted within 7 to 10 days of receipt. The video must show the sealed package being opened and the condition of the piece. Items must be unworn and in their original packaging."
   },
   {
     question: "Do your pieces come with a warranty?",
-    answer: "Yes, all The Jewel Studio creations come with a lifetime warranty against manufacturing defects. We also offer complimentary annual cleaning and prong inspections."
+    answer: "As these are artificial and imitation fashion pieces, we do not offer a lifetime warranty. However, all pieces are strictly quality-inspected before dispatch, and any transit damage or manufacturing defect reported with video proof within 7 to 10 days will be promptly replaced or refunded."
   }
 ];
 

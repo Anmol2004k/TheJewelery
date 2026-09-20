@@ -13,8 +13,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..600;1,300..600&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JEWELSTUDIO1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // Config will be dynamically customized with environment variable if provided
+      gtag('config', 'G-JEWELSTUDIO1', { send_page_view: false });
+    </script>
+
+    <!-- Schema.org Organization Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "JewelryStore",
+      "name": "The Jewel Studio",
+      "image": "https://thejewelstudio.in/logo.png",
+      "telephone": "+918477077001",
+      "email": "thejewelstudio.in1@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Udham Singh Nagar",
+        "addressRegion": "Uttarakhand",
+        "postalCode": "263153",
+        "addressCountry": "IN"
+      },
+      "priceRange": "₹₹",
+      "openingHours": "Mo-Su 10:00-20:00"
+    }
+    </script>
   </head>
-  <body class="bg-[#FDFBF7] text-[#1A1A1A] font-montserrat antialiased selection:bg-[#D4AF37] selection:text-white">
+  <body class="bg-cream text-charcoal font-montserrat antialiased selection:bg-gold selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

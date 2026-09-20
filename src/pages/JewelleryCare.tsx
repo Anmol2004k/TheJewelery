@@ -7,7 +7,7 @@ export function JewelleryCare() {
     <div className="min-h-screen bg-cream pt-24 pb-24">
       <SEO 
         title="Jewellery Care Guide" 
-        description="Expert tips on how to clean, store, and maintain your fine jewellery, diamonds, and gold pieces from The Jewel Studio."
+        description="Expert tips on how to clean, store, and maintain your artificial and imitation jewelry from The Jewel Studio."
       />
       
       <div className="bg-white py-16 border-b border-gray-200 mb-12">
@@ -16,7 +16,7 @@ export function JewelleryCare() {
             Jewellery Care Guide
           </h1>
           <p className="text-gray-500 max-w-xl mx-auto font-light">
-            Preserve the brilliance of your pieces for generations to come.
+            Keep your imitation and fashion jewellery shining brilliantly for years to come.
           </p>
         </div>
       </div>
@@ -28,9 +28,9 @@ export function JewelleryCare() {
             <div className="w-16 h-16 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6">
               <ShieldAlert className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-playfair text-xl text-charcoal mb-4">Daily Wear</h3>
+            <h3 className="font-playfair text-xl text-charcoal mb-4">Keep Away from Moisture</h3>
             <p className="text-gray-600 font-light text-sm leading-relaxed text-left">
-              Fine jewellery should be the last thing you put on and the first thing you take off. Avoid exposing your pieces to harsh chemicals, including perfumes, hairsprays, and cleaning agents. We recommend removing rings and bracelets before heavy physical activity or swimming.
+              Imitation and gold-plated fashion jewellery should be the last thing you wear and the first thing you remove. Avoid exposure to water, sweat, perfume, hairsprays, body lotions, and harsh cleaning solutions to protect the anti-tarnish coating.
             </p>
           </div>
 
@@ -39,9 +39,9 @@ export function JewelleryCare() {
             <div className="w-16 h-16 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6">
               <Droplets className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-playfair text-xl text-charcoal mb-4">Cleaning</h3>
+            <h3 className="font-playfair text-xl text-charcoal mb-4">Gentle Dry Wiping</h3>
             <p className="text-gray-600 font-light text-sm leading-relaxed text-left">
-              To restore the sparkle of your diamonds and gold, soak them briefly in warm water with a few drops of mild dish soap. Gently brush around the settings with a very soft-bristled toothbrush. Rinse thoroughly with clean warm water and pat dry with a lint-free cloth.
+              After each wear, gently wipe your jewellery with a clean, soft micro-fiber cloth to remove oils, sweat, and dust. Avoid abrasive cloths, chemical jewelry cleaners, or dipping imitation pieces in water.
             </p>
           </div>
 
@@ -50,20 +50,20 @@ export function JewelleryCare() {
             <div className="w-16 h-16 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-6">
               <Sparkles className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-playfair text-xl text-charcoal mb-4">Storage</h3>
+            <h3 className="font-playfair text-xl text-charcoal mb-4">Airtight Storage</h3>
             <p className="text-gray-600 font-light text-sm leading-relaxed text-left">
-              Store your pieces separately to prevent them from scratching each other. Diamonds are the hardest natural substance and can easily scratch other gems and metals. Always store your jewellery in the original fabric-lined box or a soft pouch provided by The Jewel Studio.
+              Store each piece separately in an individual airtight ziplock pouch or velvet compartment. Keeping pieces separate prevents scratches on crystal stones and shields the plating from atmospheric humidity and oxidation.
             </p>
           </div>
         </div>
 
         <div className="mt-16 bg-white p-8 md:p-12 border border-gray-200 text-center">
-          <h2 className="font-playfair text-2xl text-charcoal mb-4">Complimentary Maintenance</h2>
+          <h2 className="font-playfair text-2xl text-charcoal mb-4">Questions About Jewellery Care?</h2>
           <p className="text-gray-600 font-light max-w-2xl mx-auto mb-6">
-            We offer complimentary professional cleaning and prong inspection for all The Jewel Studio pieces. We recommend bringing or sending your jewellery to us once a year to ensure the stones remain secure and the metal maintains its pristine finish.
+            Our concierge team is here to help you get the best wear and shine from your imitation and artificial jewellery collections.
           </p>
           <a href="/contact" className="inline-block border border-royal text-royal hover:bg-royal hover:text-white transition-colors uppercase tracking-widest text-sm font-semibold px-8 py-3">
-            Book an Appointment
+            Contact Support
           </a>
         </div>
       </div>

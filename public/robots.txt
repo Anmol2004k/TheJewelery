@@ -1,0 +1,18 @@
+# Robots.txt for The Jewel Studio
+# Official Jewelry Store - Udham Singh Nagar, Uttarakhand, India
+
+User-agent: *
+Allow: /
+
+# Disallow private user & administrative routes
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
+Disallow: /api/admin/
+Disallow: /account
+Disallow: /checkout
+Disallow: /order-confirmation
+
+# Sitemaps
+Sitemap: https://ais-dev-f3h6rq2zviocziizh7cxri-318992934893.asia-southeast1.run.app/sitemap.xml
+Sitemap: https://ais-pre-f3h6rq2zviocziizh7cxri-318992934893.asia-southeast1.run.app/sitemap.xml

@@ -3,19 +3,20 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Button } from '../components/ui/Button';
 import { ProductCard } from '../components/ProductCard';
-import { PRODUCTS, IMAGES, TESTIMONIALS } from '../data';
+import { PRODUCTS, IMAGES, TESTIMONIALS, getCategoryFallback } from '../data';
 import { Star, Gem, ShieldCheck, Headphones, Award } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { InstagramSection } from '../components/InstagramSection';
+import { MarketplacePartners } from '../components/MarketplacePartners';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const TRUST_ITEMS = [
   {
     icon: Gem,
-    title: 'Handmade Jewellery',
-    description: 'Crafted with precision and care in our Geneva atelier.'
+    title: 'Imitation Jewellery',
+    description: 'High-grade 18k micron plating & sparkling AAA+ cubic zirconia.'
   },
   {
     icon: ShieldCheck,
@@ -24,13 +25,13 @@ const TRUST_ITEMS = [
   },
   {
     icon: Headphones,
-    title: 'Easy Support',
-    description: 'Our concierge team is available to assist you 24/7.'
+    title: 'Dedicated Support',
+    description: 'Our concierge support team is ready to assist with any questions.'
   },
   {
     icon: Award,
-    title: 'Quality Craftsmanship',
-    description: 'Backed by a lifetime warranty on all our pieces.'
+    title: '5-Day Delivery & Returns',
+    description: 'Fast 5-day delivery with 7–10 day video-verified return policy.'
   }
 ];
 
@@ -77,10 +78,16 @@ export function Home() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full p-[2px] border border-gray-200 group-hover:border-gold transition-colors">
                 <div className="w-full h-full rounded-full overflow-hidden bg-cream">
                   <img 
-                    src={cat.image} 
+                    src={cat.image || getCategoryFallback(cat.name)} 
                     alt={cat.name} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const fallback = getCategoryFallback(cat.name);
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
                   />
                 </div>
               </div>
@@ -171,6 +178,9 @@ export function Home() {
           </div>
         </div>
       </section>
+
+      {/* Available on Leading Marketplaces (Amazon, Flipkart, Myntra, Meesho) */}
+      <MarketplacePartners variant="home" />
 
       {/* Customer Testimonials */}
       <section className="py-16 sm:py-24 bg-cream">

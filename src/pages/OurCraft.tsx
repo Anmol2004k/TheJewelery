@@ -21,8 +21,8 @@ export function OurCraft() {
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Our Craft - Handmade Jewellery & Artisans",
-    "description": "Discover the artisan craftsmanship behind The Jewel Studio's handcrafted jewellery.",
+    "name": "About Us - The Jewel Studio",
+    "description": "Discover the story, artisan craftsmanship, and dedication to excellence behind The Jewel Studio.",
     "publisher": {
       "@type": "Organization",
       "name": "The Jewel Studio"
@@ -32,9 +32,9 @@ export function OurCraft() {
   return (
     <div className="bg-cream min-h-screen">
       <SEO 
-        title="Our Craft | Handmade Jewellery"
-        description="Explore the artistry behind The Jewel Studio. From ethically sourced materials to master artisans, discover our handcrafted jewellery process."
-        keywords="handmade jewellery, handcrafted jewellery, jewellery artisans, artisan craftsmanship, bespoke jewelry design, luxury jewelry making"
+        title="About Us | The Jewel Studio"
+        description="Learn about The Jewel Studio, our artisan craftsmanship, master jewelers, and dedication to elegant artificial and imitation jewelry."
+        keywords="about us, the jewel studio, artificial jewellery, imitation jewellery, jewellery artisans, handcrafted jewelry"
       />
       <script
         type="application/ld+json"
@@ -49,7 +49,7 @@ export function OurCraft() {
             animate={{ scale: 1 }}
             transition={{ duration: 2, ease: 'easeOut' }}
             src={craftHero}
-            alt="Master artisan crafting a luxury diamond necklace"
+            alt="Master artisan crafting luxury jewelry"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -57,13 +57,16 @@ export function OurCraft() {
         </div>
         
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/20 text-gold-light border border-gold/30 text-xs font-semibold uppercase tracking-widest mb-6">
+            <span>Our Story & Craftsmanship</span>
+          </div>
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             className="font-playfair text-5xl md:text-7xl text-white mb-6"
           >
-            The Hands Behind Every Jewel
+            About Us
           </motion.h1>
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
@@ -77,7 +80,7 @@ export function OurCraft() {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-white/90 text-lg md:text-xl font-light tracking-wide"
           >
-            A dedication to traditional artisan craftsmanship and uncompromising luxury.
+            The hands, heritage, and uncompromising craftsmanship behind every piece of The Jewel Studio.
           </motion.p>
         </div>
       </section>
@@ -131,7 +134,7 @@ export function OurCraft() {
             >
               <img 
                 src={macroDetails} 
-                alt="Macro details of handcrafted diamond ring in 18k gold" 
+                alt="Macro details of handcrafted crystal ring in 18k gold plating" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
@@ -145,10 +148,10 @@ export function OurCraft() {
               <h2 className="font-playfair text-4xl mb-6 text-white">Precision in Every Facet</h2>
               <h3 className="text-gold tracking-widest uppercase text-sm mb-6">Our Master Jewellery Artisans</h3>
               <p className="text-white/70 font-light leading-relaxed mb-6">
-                True luxury is found in the microscopic details that machines simply cannot replicate. Our master jewellery artisans employ techniques passed down through generations, utilizing specialized loupes and gravers to achieve absolute symmetry.
+                True elegance is found in the microscopic details that mass manufacturing simply cannot replicate. Our master jewellery artisans employ techniques passed down through generations, utilizing specialized loupes and gravers to achieve absolute symmetry.
               </p>
               <p className="text-white/70 font-light leading-relaxed">
-                When you view a piece of our handcrafted jewellery under magnification, you'll see prongs that are perfectly rounded and polished, ensuring maximum light return to the gemstone. It is this invisible labour of love that gives our pieces their breathtaking, signature fire.
+                When you view a piece of our handcrafted imitation jewellery under magnification, you'll see prongs that are smoothly hand-set and polished, ensuring maximum light return to every faceted crystal stone. It is this dedicated labor of love that gives our pieces their breathtaking signature fire.
               </p>
             </motion.div>
           </div>
@@ -168,10 +171,10 @@ export function OurCraft() {
             >
               <h2 className="font-playfair text-4xl mb-6 text-charcoal">Finest Materials & Quality</h2>
               <p className="text-gray-600 font-light leading-relaxed mb-6">
-                Uncompromising artisan craftsmanship demands uncompromising materials. We source only the purest 18-karat gold, platinum, and conflict-free gemstones. Our artisans work closely with gemologists to ensure that every raw stone possesses exceptional clarity and color before it ever reaches the workbench.
+                Uncompromising artisan craftsmanship demands uncompromising materials. We source heavy 18-karat micron gold plating, hypoallergenic skin-safe alloy bases, and brilliant AAA+ cubic zirconia crystals. Our artisans ensure every stone and setting delivers exceptional brilliance and finish before it ever leaves the studio.
               </p>
               <p className="text-gray-600 font-light leading-relaxed">
-                By maintaining strict quality controls over both our raw materials and our crafting processes, we guarantee that every piece is not just a stunning adornment, but a durable heirloom designed to withstand the test of time.
+                By maintaining strict quality controls over both our raw materials and our anti-tarnish coating processes, we guarantee that every piece is not just a stunning adornment, but a durable favorite designed to look pristine for years to come.
               </p>
             </motion.div>
             <motion.div
@@ -183,7 +186,7 @@ export function OurCraft() {
             >
               <img 
                 src={materialsGold} 
-                alt="18k gold ingots and raw diamonds on velvet" 
+                alt="Polished gold finish pieces and precision crystal stones" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />

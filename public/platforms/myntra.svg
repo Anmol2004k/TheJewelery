@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 88" width="320" height="88">
+      <rect width="320" height="88" fill="transparent"/>
+      <g transform="translate(24, 18)">
+        <path d="M 4 46 C 4 46, 6 18, 14 8 C 19 2, 26 3, 26 11 C 26 19, 18 38, 16 46 Z" fill="#FF3F6C"/>
+        <path d="M 16 46 C 16 38, 22 16, 30 11 C 36 7, 40 11, 39 19 C 37 27, 33 38, 31 46 Z" fill="#FF905A" opacity="0.95"/>
+        <path d="M 31 46 C 31 38, 35 16, 42 11 C 48 7, 52 11, 51 19 C 49 27, 45 38, 43 46 Z" fill="#FF3F6C"/>
+        <path d="M 43 46 C 43 38, 47 18, 55 8 C 60 2, 67 3, 67 11 C 67 19, 59 38, 57 46 Z" fill="#F13AB1"/>
+      </g>
+      <text x="104" y="54" font-family="'Montserrat', -apple-system, sans-serif" font-weight="800" font-size="40" letter-spacing="0.5px" fill="#282C3F">Myntra</text>
+    </svg>

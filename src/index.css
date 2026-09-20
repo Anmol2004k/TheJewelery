@@ -41,3 +41,24 @@ h1, h2, h3, h4, h5, h6, .font-playfair {
   font-family: var(--font-playfair);
 }
 
+/* Seamless infinite marquee animation */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+

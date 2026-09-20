@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button';
 import { Trash2, ShoppingBag } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatPrice } from '../utils/format';
+import { getCategoryFallback } from '../data';
 
 export function Cart() {
   const { items, removeFromCart, updateQuantity, totalPrice, totalItems } = useCart();
@@ -53,10 +54,16 @@ export function Cart() {
                     <div className="col-span-1 sm:col-span-6 flex items-center gap-4">
                       <Link to={`/product/${item.product.id}`} className="shrink-0">
                         <img
-                          src={item.product.image}
+                          src={item.product.image || getCategoryFallback(item.product.category)}
                           alt={item.product.name}
                           className="w-20 h-24 object-cover"
                           referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            const fallback = getCategoryFallback(item.product.category);
+                            if (e.currentTarget.src !== fallback) {
+                              e.currentTarget.src = fallback;
+                            }
+                          }}
                         />
                       </Link>
                       <div>

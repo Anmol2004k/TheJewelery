@@ -4,6 +4,7 @@ import { CartProvider } from './contexts/CartContext';
 import { WishlistProvider } from './contexts/WishlistContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { PageTransition } from './components/PageTransition';
 import { Toaster } from 'react-hot-toast';
 import { AnimatePresence } from 'motion/react';
@@ -25,6 +26,13 @@ import { ShippingReturns } from './pages/ShippingReturns';
 import { JewelleryCare } from './pages/JewelleryCare';
 import { FAQ } from './pages/FAQ';
 import { OurCraft } from './pages/OurCraft';
+import { OrderHistory } from './pages/OrderHistory';
+import { AdminLogin } from './pages/AdminLogin';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { Sitemap } from './pages/Sitemap';
+import { initGoogleAnalytics, trackPageView } from './lib/analytics';
+
+import { AuthProvider } from './contexts/AuthContext';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -37,13 +45,22 @@ function ScrollToTop() {
 function AppContent() {
   const location = useLocation();
 
+  // Initialize and track Google Analytics page views on route changes
+  React.useEffect(() => {
+    initGoogleAnalytics();
+  }, []);
+
+  React.useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
       <Navbar />
       <main className="flex-grow">
         <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
+          <Routes location={location}>
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />
             <Route path="/shop" element={<PageTransition><Shop /></PageTransition>} />
             <Route path="/product/:id" element={<PageTransition><ProductDetail /></PageTransition>} />
@@ -52,6 +69,8 @@ function AppContent() {
             <Route path="/order-confirmation" element={<PageTransition><OrderConfirmation /></PageTransition>} />
             <Route path="/wishlist" element={<PageTransition><Wishlist /></PageTransition>} />
             <Route path="/auth" element={<PageTransition><Auth /></PageTransition>} />
+            <Route path="/orders" element={<PageTransition><OrderHistory /></PageTransition>} />
+            <Route path="/account" element={<PageTransition><OrderHistory /></PageTransition>} />
             <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
             <Route path="/about" element={<PageTransition><About /></PageTransition>} />
             <Route path="/privacy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
@@ -60,12 +79,16 @@ function AppContent() {
             <Route path="/jewellery-care" element={<PageTransition><JewelleryCare /></PageTransition>} />
             <Route path="/faq" element={<PageTransition><FAQ /></PageTransition>} />
             <Route path="/our-craft" element={<PageTransition><OurCraft /></PageTransition>} />
+            <Route path="/sitemap" element={<PageTransition><Sitemap /></PageTransition>} />
+            <Route path="/admin/login" element={<PageTransition><AdminLogin /></PageTransition>} />
+            <Route path="/admin/dashboard" element={<PageTransition><AdminDashboard /></PageTransition>} />
           </Routes>
         </AnimatePresence>
       </main>
       <Footer />
+      <FloatingWhatsApp />
       <Toaster 
-        position="bottom-right" 
+        position="top-right" 
         toastOptions={{ 
           style: { 
             background: '#1A1A1A', 
@@ -84,11 +107,13 @@ function AppContent() {
 export default function App() {
   return (
     <Router>
-      <CartProvider>
-        <WishlistProvider>
-          <AppContent />
-        </WishlistProvider>
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <AppContent />
+          </WishlistProvider>
+        </CartProvider>
+      </AuthProvider>
     </Router>
   );
 }

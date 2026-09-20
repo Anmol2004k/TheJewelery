@@ -3,12 +3,15 @@ import { cn } from '../lib/utils';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
-import { ShoppingBag, Heart, Menu, Search, X, User } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { logOut } from '../lib/firebase';
+import { ShoppingBag, Heart, Menu, Search, X, User, Package, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export function Navbar() {
   const { totalItems: cartItems } = useCart();
   const { totalItems: wishlistItems } = useWishlist();
+  const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -18,8 +21,7 @@ export function Navbar() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop', path: '/shop' },
-    { name: 'Our Craft', path: '/our-craft' },
-    { name: 'Collections', path: '/shop?category=featured' },
+    { name: 'About Us', path: '/our-craft' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -58,6 +60,14 @@ export function Navbar() {
               <button className="text-charcoal hover:text-gold transition-colors hidden sm:block">
                 <Search className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.5} />
               </button>
+              <Link to={user ? "/account" : "/auth"} className="hidden sm:flex text-charcoal hover:text-gold transition-colors" title={user ? "My Account" : "Sign In"}>
+                <User className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.5} />
+              </Link>
+              {user && (
+                <button onClick={() => logOut()} className="hidden sm:flex text-charcoal hover:text-red-600 transition-colors" title="Sign Out">
+                  <LogOut className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.5} />
+                </button>
+              )}
               <Link to="/wishlist" className="hidden sm:flex relative text-charcoal hover:text-gold transition-colors">
                 <Heart className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.5} />
                 {wishlistItems > 0 && (
@@ -124,19 +134,34 @@ export function Navbar() {
               
               <div className="mt-auto pt-8 border-t border-gray-100 flex flex-col gap-4">
                 <Link 
+                  to="/orders"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 text-charcoal font-medium hover:text-gold transition-colors"
+                >
+                  <Package className="w-5 h-5" /> Track Order
+                </Link>
+                <Link 
                   to="/wishlist" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 text-charcoal font-medium"
+                  className="flex items-center gap-3 text-charcoal font-medium hover:text-gold transition-colors"
                 >
                   <Heart className="w-5 h-5" /> Wishlist ({wishlistItems})
                 </Link>
                 <Link 
-                  to="/auth" 
+                  to={user ? "/account" : "/auth"} 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 text-charcoal font-medium"
+                  className="flex items-center gap-3 text-charcoal font-medium hover:text-gold transition-colors"
                 >
-                  <User className="w-5 h-5" /> My Account
+                  <User className="w-5 h-5" /> {user ? 'My Account' : 'Sign In'}
                 </Link>
+                {user && (
+                  <button 
+                    onClick={() => { logOut(); setMobileMenuOpen(false); }}
+                    className="flex items-center gap-3 text-red-600 font-medium hover:text-red-700 transition-colors"
+                  >
+                    <LogOut className="w-5 h-5" /> Sign Out
+                  </button>
+                )}
               </div>
             </motion.div>
           </>

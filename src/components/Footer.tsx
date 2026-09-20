@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Mail } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { WhatsAppIcon } from './icons/WhatsAppIcon';
+import { trackWhatsAppClick } from '../lib/analytics';
 
 export function Footer() {
   return (
@@ -13,8 +15,38 @@ export function Footer() {
               THE JEWEL STUDIO
             </h3>
             <p className="text-white/70 text-sm leading-relaxed mb-6">
-              Crafting timeless elegance and modern luxury since 1995. Every piece tells a story of exceptional craftsmanship and unparalleled beauty.
+              Crafting timeless elegance and bespoke luxury. Studio based in Uttarakhand, serving clients across India and worldwide.
             </p>
+            <div className="space-y-2.5 text-xs text-white/70 mb-6">
+              <div className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-gold shrink-0 mt-0.5" />
+                <span>Udham Singh Nagar, Uttarakhand, India</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-gold shrink-0" />
+                <a href="tel:+918477077001" className="hover:text-gold transition-colors font-mono">
+                  +91 8477077001
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-gold shrink-0" />
+                <a href="mailto:thejewelstudio.in1@gmail.com" className="hover:text-gold transition-colors break-all">
+                  thejewelstudio.in1@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2 pt-1">
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" color="#25D366" />
+                <a 
+                  href="https://wa.me/918477077001?text=Hello%20The%20Jewel%20Studio%2C%20I%20have%20an%20inquiry%20regarding%20your%20jewellery%20collection." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  onClick={() => trackWhatsAppClick('footer', '+91 8477077001')}
+                  className="hover:text-[#25D366] text-[#25D366] font-medium transition-colors flex items-center gap-1.5"
+                >
+                  <span>WhatsApp: +91 8477077001</span>
+                </a>
+              </div>
+            </div>
             <div className="flex gap-4">
               <a href="#" className="text-white/70 hover:text-gold transition-colors">
                 <Instagram className="w-5 h-5" />
@@ -96,9 +128,14 @@ export function Footer() {
           <p className="text-white/50 text-xs">
             &copy; {new Date().getFullYear()} The Jewel Studio. All rights reserved.
           </p>
-          <div className="flex gap-4 text-xs text-white/50">
+          <div className="flex flex-wrap gap-4 text-xs text-white/50 justify-center md:justify-end">
             <Link to="/privacy" className="hover:text-gold transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-gold transition-colors">Terms of Service</Link>
+            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">Sitemap</a>
+            <a href="/robots.txt" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">Robots.txt</a>
+            <Link to="/admin/login" className="hover:text-gold transition-colors flex items-center gap-1">
+              <span>Admin Portal</span>
+            </Link>
           </div>
         </div>
       </div>

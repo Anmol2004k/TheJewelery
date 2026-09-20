@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Button } from '../components/ui/Button';
+import { MarketplacePartners } from '../components/MarketplacePartners';
 
 // Assets
 import workshopHands from '../assets/images/workshop_hands_1787067434390.jpg';
@@ -14,7 +15,7 @@ export function About() {
       <div className="bg-white py-16 border-b border-gray-200 mb-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="font-playfair text-4xl md:text-5xl text-charcoal mb-4">
-            Our Heritage
+            About Us
           </h1>
           <p className="text-gray-500 max-w-xl mx-auto font-light">
             A legacy of elegance, built on decades of uncompromising craftsmanship and an undying passion for fine jewellery.
@@ -83,10 +84,10 @@ export function About() {
               <h3 className="uppercase tracking-[0.2em] text-gold font-semibold text-xs mb-4">The Artisan's Touch</h3>
               <h2 className="font-playfair text-3xl md:text-4xl text-charcoal mb-6">Handmade Perfection</h2>
               <p className="text-gray-600 font-light leading-relaxed mb-6">
-                Mass production has no place in our atelier. Every single piece bearing The Jewel Studio name is entirely handmade by our master artisans. From the initial conceptual sketch to the final, meticulous polishing of a diamond setting, human hands guide every step of the journey.
+                Mass production has no place in our atelier. Every single piece bearing The Jewel Studio name is crafted with meticulous care by skilled artisans. From the initial conceptual sketch to the final, brilliant polish of each crystal setting, human hands guide every step of the journey.
               </p>
               <p className="text-gray-600 font-light leading-relaxed mb-8">
-                Our craftsmen undergo years of rigorous apprenticeship, mastering ancient metalworking techniques alongside cutting-edge precision tools. This dedication ensures that each piece is not merely a product, but a unique work of art imbued with character and soul.
+                Our craftsmen undergo years of rigorous apprenticeship, mastering ancient metalworking techniques alongside modern anti-tarnish plating technologies. This dedication ensures that each imitation piece delivers stunning brilliance, durable wear, and timeless character.
               </p>
               
               <div>
@@ -100,6 +101,9 @@ export function About() {
           </div>
         </section>
       </div>
+
+      {/* Available on Leading Marketplaces (Amazon, Flipkart, Myntra, Meesho) */}
+      <MarketplacePartners variant="about" className="mt-16" />
     </div>
   );
 }

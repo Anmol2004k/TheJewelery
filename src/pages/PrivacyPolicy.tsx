@@ -44,7 +44,7 @@ export function PrivacyPolicy() {
 
           <h2 className="font-playfair text-2xl text-charcoal mb-4">5. Contact Us</h2>
           <p className="mb-0">
-            If you have any questions about this Privacy Policy or how we handle your data, please contact our concierge team at privacy@thejewelstudio.com.
+            If you have any questions about this Privacy Policy or how we handle your data, please contact our concierge team at <a href="mailto:thejewelstudio.in1@gmail.com" className="text-gold hover:underline font-medium">thejewelstudio.in1@gmail.com</a> or call/WhatsApp us at <a href="tel:+918477077001" className="text-gold hover:underline font-mono">+91 8477077001</a>.
           </p>
         </div>
       </div>

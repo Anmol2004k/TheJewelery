@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 88" width="320" height="88">
+      <rect width="320" height="88" fill="transparent"/>
+      <text x="26" y="48" font-family="'Montserrat', -apple-system, sans-serif" font-weight="800" font-size="30" letter-spacing="2.5px" fill="#1A1A1A">TATA</text>
+      <text x="122" y="48" font-family="'Montserrat', -apple-system, sans-serif" font-weight="900" font-size="34" letter-spacing="1px" fill="#B81452">CLiQ</text>
+      <text x="212" y="48" font-family="'Playfair Display', Georgia, serif" font-style="italic" font-weight="600" font-size="24" fill="#997328">Luxury</text>
+      <path d="M 194 48 C 196 52, 202 54, 207 50" stroke="#B81452" stroke-width="3" stroke-linecap="round" fill="none"/>
+    </svg>

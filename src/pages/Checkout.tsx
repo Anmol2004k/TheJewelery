@@ -7,6 +7,10 @@ import { Lock, CreditCard } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatPrice } from '../utils/format';
 import toast from 'react-hot-toast';
+import { db } from '../lib/firebase';
+import { useAuth } from '../contexts/AuthContext';
+import { sendOrderConfirmationEmail } from '../lib/email';
+import { getCategoryFallback } from '../data';
 
 declare global {
   interface Window {
@@ -17,6 +21,7 @@ declare global {
 export function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -84,8 +89,16 @@ export function Checkout() {
 
       const orderData = await orderRes.json();
 
+      const razorpayKeyId = import.meta.env.VITE_RAZORPAY_KEY_ID;
+      
+      if (!razorpayKeyId) {
+        toast.error('Razorpay key is not configured.');
+        setIsProcessing(false);
+        return;
+      }
+
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || '', // Fallback to mock key
+        key: razorpayKeyId,
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'The Jewel Studio',
@@ -103,6 +116,56 @@ export function Checkout() {
             const verifyData = await verifyRes.json();
             
             if (verifyData.status === 'success') {
+              // Store order details in Firebase
+              try {
+                const { doc, setDoc } = await import('firebase/firestore');
+                
+                const orderPayload = {
+                  userId: user?.uid || 'guest',
+                  orderId: orderData.id,
+                  amount: orderData.amount / 100, // assuming Razorpay amount is in paise
+                  currency: orderData.currency,
+                  email: formData.email,
+                  phone: formData.phone,
+                  firstName: formData.firstName,
+                  lastName: formData.lastName,
+                  address: formData.address,
+                  city: formData.city,
+                  state: formData.state,
+                  pincode: formData.pincode,
+                  country: formData.country,
+                  items: items, // the cart items JSON
+                  status: 'paid',
+                  createdAt: new Date()
+                };
+                
+                // If user is logged in, save to their firestore records
+                if (user) {
+                  const newOrderRef = doc(db, 'orders', orderData.id);
+                  await setDoc(newOrderRef, orderPayload);
+                } else {
+                  console.log('Guest order payment successful', orderPayload);
+                }
+
+                // Sync with Admin backend store
+                await fetch('/api/orders', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(orderPayload)
+                }).catch(e => console.warn('Order admin sync notice:', e));
+              } catch (dbErr) {
+                console.error('Failed to save to database:', dbErr);
+              }
+
+              // Send Confirmation Email
+              await sendOrderConfirmationEmail({
+                firstName: formData.firstName,
+                email: formData.email,
+                orderId: orderData.id,
+                amount: formatPrice(totalPrice),
+                items: items
+              });
+
               toast.success('Payment successful!');
               clearCart();
               navigate('/order-confirmation', { state: { orderId: orderData.id } });
@@ -210,10 +273,16 @@ export function Checkout() {
                   <div key={item.product.id} className="flex gap-4">
                     <div className="relative shrink-0">
                       <img
-                        src={item.product.image}
+                        src={item.product.image || getCategoryFallback(item.product.category)}
                         alt={item.product.name}
                         className="w-16 h-20 object-cover"
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const fallback = getCategoryFallback(item.product.category);
+                          if (e.currentTarget.src !== fallback) {
+                            e.currentTarget.src = fallback;
+                          }
+                        }}
                       />
                       <span className="absolute -top-2 -right-2 bg-gray-200 text-charcoal text-xs w-5 h-5 flex items-center justify-center rounded-full">
                         {item.quantity}
