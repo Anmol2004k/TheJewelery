@@ -3,9 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 // Supabase Credentials
 // Configurable via environment variables with the project's defaults
 export const SUPABASE_URL =
-  import.meta.env.VITE_SUPABASE_URL || 'https://oadkresiuupjythvdhtn.supabase.co';
+  import.meta.env.VITE_SUPABASE_URL || 'https://speibhvlggkmmoxngqtj.supabase.co';
 export const SUPABASE_ANON_KEY =
-  import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_GITyK1cTSoqpy1qYNzh-4A_Vu0CVnpz';
+  import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwZWliaHZsZ2drbW1veG5ncXRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNDI2MDYsImV4cCI6MjEwNTcxODYwNn0.a8dgztVBvbv9rPgkb8h-p5BUHoTbyKGsZeoEPilHRUs';
 
 export const isSupabaseConfigured = Boolean(
   SUPABASE_URL &&
