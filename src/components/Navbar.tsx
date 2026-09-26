@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
 import { useAuth } from '../contexts/AuthContext';
-import { logOut } from '../lib/firebase';
+import { logOut } from '../lib/supabase';
 import { ShoppingBag, Heart, Menu, Search, X, User, Package, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 

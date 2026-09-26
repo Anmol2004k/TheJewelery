@@ -7,7 +7,7 @@ import { Lock, CreditCard } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatPrice } from '../utils/format';
 import toast from 'react-hot-toast';
-import { db } from '../lib/firebase';
+import { orderService } from '../services/orderService';
 import { useAuth } from '../contexts/AuthContext';
 import { sendOrderConfirmationEmail } from '../lib/email';
 import { getCategoryFallback } from '../data';
@@ -116,14 +116,12 @@ export function Checkout() {
             const verifyData = await verifyRes.json();
             
             if (verifyData.status === 'success') {
-              // Store order details in Firebase
+              // Store order details in Supabase and sync with backend
               try {
-                const { doc, setDoc } = await import('firebase/firestore');
-                
-                const orderPayload = {
-                  userId: user?.uid || 'guest',
+                await orderService.createOrder({
+                  userId: user?.id || 'guest',
                   orderId: orderData.id,
-                  amount: orderData.amount / 100, // assuming Razorpay amount is in paise
+                  amount: orderData.amount / 100,
                   currency: orderData.currency,
                   email: formData.email,
                   phone: formData.phone,
@@ -134,25 +132,11 @@ export function Checkout() {
                   state: formData.state,
                   pincode: formData.pincode,
                   country: formData.country,
-                  items: items, // the cart items JSON
+                  items: items,
                   status: 'paid',
-                  createdAt: new Date()
-                };
-                
-                // If user is logged in, save to their firestore records
-                if (user) {
-                  const newOrderRef = doc(db, 'orders', orderData.id);
-                  await setDoc(newOrderRef, orderPayload);
-                } else {
-                  console.log('Guest order payment successful', orderPayload);
-                }
-
-                // Sync with Admin backend store
-                await fetch('/api/orders', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(orderPayload)
-                }).catch(e => console.warn('Order admin sync notice:', e));
+                  paymentId: response.razorpay_payment_id || '',
+                  paymentMethod: 'Razorpay',
+                });
               } catch (dbErr) {
                 console.error('Failed to save to database:', dbErr);
               }

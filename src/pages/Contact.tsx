@@ -5,8 +5,7 @@ import { MapPin, Phone, Mail, Clock, CheckCircle2, Database, ShieldCheck } from 
 import { WhatsAppIcon } from '../components/icons/WhatsAppIcon';
 import { trackWhatsAppClick } from '../lib/analytics';
 import { sendContactEmail } from '../lib/email';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { contactService } from '../services/contactService';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
@@ -53,57 +52,25 @@ export function Contact() {
       const subject = formData.subject.trim() || 'General Inquiry';
       const message = formData.message.trim();
 
-      // 1. Save directly into Firestore Database
-      const contactDoc = {
+      // Save directly into Supabase Database & server sync
+      const result = await contactService.sendMessage({
         firstName,
         lastName,
         fullName,
         email,
         subject,
         message,
-        status: 'unread',
-        userId: user?.uid || null,
+        userId: user?.id || null,
         userEmail: user?.email || null,
-        createdAt: serverTimestamp(),
-        source: 'contact_page'
-      };
+        source: 'contact_page',
+      });
 
-      try {
-        const docRef = await addDoc(collection(db, 'contact_messages'), contactDoc);
-        generatedRef = `INQ-${docRef.id.slice(0, 7).toUpperCase()}`;
-      } catch (fsErr) {
-        console.error('Firestore save error:', fsErr);
-        handleFirestoreError(fsErr, OperationType.CREATE, 'contact_messages');
-      }
-
-      if (!generatedRef) {
+      generatedRef = `INQ-${(result.id || '').replace(/^inq_/, '').slice(0, 7).toUpperCase()}`;
+      if (!generatedRef || generatedRef === 'INQ-') {
         generatedRef = `INQ-${Date.now().toString().slice(-6)}`;
       }
 
-      // 2. Also sync to backend API store
-      try {
-        await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            id: generatedRef.toLowerCase(),
-            firstName,
-            lastName,
-            fullName,
-            email,
-            subject,
-            message,
-            status: 'unread',
-            userId: user?.uid || null,
-            createdAt: new Date().toISOString(),
-            source: 'web_contact_form'
-          })
-        });
-      } catch (apiErr) {
-        console.warn('Backend sync notice:', apiErr);
-      }
-
-      // 3. Dispatch email notification in background (optional/graceful)
+      // Dispatch email notification in background (optional/graceful)
       sendContactEmail(formData).catch(err => console.warn('Email notice:', err));
 
       setInquiryRef(generatedRef);
