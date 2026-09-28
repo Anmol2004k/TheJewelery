@@ -9,13 +9,22 @@ import ugcEarrings from './assets/images/ugc_earrings_1787066660576.jpg';
 import productRing from './assets/images/product_ring_1787065538690.jpg';
 import productNecklace from './assets/images/product_necklace_1787065551283.jpg';
 import productEarrings from './assets/images/product_earrings_1787065562831.jpg';
-import productBracelet from './assets/images/product_bracelet_1787065575084.jpg';
+import productBr1 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+import productBr2 from './assets/images/THE CHARM EVIL EYE CABLE BANGLE-clean.png';
+import productBr3 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+import productBr4 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+import productBr5 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+import productBr6 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+import productBr7 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+import productBr8 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+
+
 
 export const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
   Rings: productRing,
   Necklaces: productNecklace,
   Earrings: productEarrings,
-  Bracelets: productBracelet,
+  Bracelets: productBr1,
   Watches: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=600&auto=format&fit=crop',
   Gifts: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600&auto=format&fit=crop',
 };
@@ -32,7 +41,7 @@ export const IMAGES = {
   productRing,
   productNecklace,
   productEarrings,
-  productBracelet,
+   
 };
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -68,7 +77,7 @@ export const PRODUCTS: Product[] = [
     name: 'Gold-Plated Heart Charm Bracelet',
     price: 249,
     category: 'Bracelets',
-    image: productBracelet,
+    image: productBr2,
     description: 'An enchanting 18k gold-plated curb chain bracelet featuring a polished puffed heart charm. Designed with anti-tarnish coating for lasting everyday brilliance.',
     isNew: true,
     featured: true,
@@ -79,7 +88,7 @@ export const PRODUCTS: Product[] = [
     name: 'Korean Style Tulip Bracelet',
     price: 199,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&auto=format&fit=crop',
+    image: productBr1 ,
     description: 'Delicate Korean aesthetic cable chain adorned with hand-enameled pastel tulip blossoms and shimmering micro-crystal dewdrops.',
     featured: true,
     rating: 4.8

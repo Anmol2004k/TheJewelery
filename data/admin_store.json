@@ -1,12 +1,23 @@
 {
   "users": [
     {
+      "id": "c5182a1c-1aae-449b-8d63-b63873a3028d",
+      "email": "rajputkanchan601@gmail.com",
+      "displayName": "Kanchan Rajput",
+      "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocLJ5yOyKN6qmlgjPA-1qVRSlOTwbmm8s15eKIJj9uNr5oRSy_04=s96-c",
+      "createdAt": "2026-09-26T14:53:51.082635Z",
+      "lastLoginAt": "2026-09-26T14:54:22.364Z",
+      "totalOrders": 0,
+      "totalSpend": 0,
+      "role": "customer"
+    },
+    {
       "id": "888cc036-8d70-4ffe-9100-3a454711de97",
       "email": "at4141anmol@gmail.com",
       "displayName": "Anmol",
       "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJ9RhNTx6m6r9J1EO63xXmVzqjB0Aa3DhWiw9L0jnaHRiJVsnJcDw=s96-c",
       "createdAt": "2026-09-23T08:51:31.837018Z",
-      "lastLoginAt": "2026-09-23T08:51:31.384Z",
+      "lastLoginAt": "2026-09-27T07:31:23.784Z",
       "totalOrders": 0,
       "totalSpend": 0,
       "role": "customer"
@@ -197,6 +208,13 @@
     }
   ],
   "activities": [
+    {
+      "id": "act_1790434453273",
+      "action": "New Customer Registered",
+      "details": "Kanchan Rajput (rajputkanchan601@gmail.com) registered an account.",
+      "type": "user",
+      "timestamp": "2026-09-26T14:54:13.273Z"
+    },
     {
       "id": "act_1790430328178",
       "action": "New Order Received",
