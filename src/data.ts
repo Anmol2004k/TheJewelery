@@ -9,14 +9,14 @@ import ugcEarrings from './assets/images/ugc_earrings_1787066660576.jpg';
 import productRing from './assets/images/product_ring_1787065538690.jpg';
 import productNecklace from './assets/images/product_necklace_1787065551283.jpg';
 import productEarrings from './assets/images/product_earrings_1787065562831.jpg';
-import productBr1 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
-import productBr2 from './assets/images/THE CHARM EVIL EYE CABLE BANGLE-clean.png';
-import productBr3 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
-import productBr4 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
-import productBr5 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
-import productBr6 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
-import productBr7 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
-import productBr8 from './assets/images/MONSTERA BLOOM CUFF-clean.png';
+import productBr1 from './assets/images/monstera-bloom-cuff.png';
+import productBr2 from './assets/images/the-charm-evil-eye-cable-bangle.png';
+import productBr3 from './assets/images/the-golden-bamboo-bangle.png';
+import productBr4 from './assets/images/the-golden-nail-cuff.png';
+import productBr5 from './assets/images/the-evil-eye-cable-bangle.png';
+import productBr6 from './assets/images/the-flow-cuff.png';
+import productBr7 from './assets/images/the-icon-crystal-bangle.png';
+import productBr8 from './assets/images/the-orbit-nail-cuff.png';
 
 
 
@@ -98,7 +98,7 @@ export const PRODUCTS: Product[] = [
     name: 'CZ Stone Vine Bracelet',
     price: 285,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop',
+    image:  productBr3,
     description: 'An organic trailing vine design embellished with marquise-cut cubic zirconia crystals that shimmer like morning dew in the sunlight.',
     rating: 4.9
   },
@@ -107,7 +107,7 @@ export const PRODUCTS: Product[] = [
     name: 'Multicolor Crystal Charm Bracelet',
     price: 256,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=600&auto=format&fit=crop',
+    image:  productBr4,
     description: 'Playful yet sophisticated bracelet featuring multi-faceted pastel crystals in blush rose, champagne, and ocean azure set along a delicate gold-toned chain.',
     rating: 4.7
   },
@@ -116,7 +116,7 @@ export const PRODUCTS: Product[] = [
     name: 'Red Tulip Floral Bracelet',
     price: 221,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?q=80&w=600&auto=format&fit=crop',
+    image:  productBr5,
     description: 'A vibrant scarlet enameled tulip bud suspended from an adjustable links chain. Perfect for adding a pop of romantic color to your wrist stack.',
     rating: 4.8
   },
@@ -125,7 +125,7 @@ export const PRODUCTS: Product[] = [
     name: 'Minimal Gold Chain Bracelet',
     price: 179,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=600&auto=format&fit=crop',
+    image:  productBr6,
     description: 'Understated luxury at its finest. An ultra-fine, shimmering twisted rope chain plated in warm 18k yellow gold with a lobster claw clasp.',
     featured: true,
     rating: 4.9
@@ -135,7 +135,7 @@ export const PRODUCTS: Product[] = [
     name: 'Evil Eye Charm Bracelet',
     price: 229,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?q=80&w=600&auto=format&fit=crop',
+    image: productBr7,
     description: 'A protective talisman crafted with a deep cobalt and turquoise glass evil eye accented by pavé micro-zirconia stones on a slender gold chain.',
     rating: 4.8
   },
@@ -144,7 +144,7 @@ export const PRODUCTS: Product[] = [
     name: 'Pearl Layered Bracelet',
     price: 249,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?q=80&w=600&auto=format&fit=crop',
+    image:  productBr8,
     description: 'Double-stranded elegance combining lustrous baroque faux pearls with a gleaming paperclip link chain. Includes an adjustable extension.',
     isNew: true,
     rating: 4.9
@@ -172,7 +172,7 @@ export const PRODUCTS: Product[] = [
     name: 'Tennis Style Crystal Bracelet',
     price: 299,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=600&auto=format&fit=crop',
+    image: productBr7,
     description: 'A classic continuous row of prong-set round brilliant Austrian crystals on a secure box clasp with dual safety latches.',
     featured: true,
     rating: 5.0
