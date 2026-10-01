@@ -70,149 +70,105 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const PRODUCTS: Product[] = [
   // ==========================================
-  // BRACELETS (15 Products)
+  // BRACELETS (9 Products)
   // ==========================================
   {
     id: 'br-1',
-    name: 'Gold-Plated Heart Charm Bracelet',
-    price: 249,
+    name: 'The Charm Evil Eye Cable Bangle',
+    price: 499,
     category: 'Bracelets',
     image: productBr2,
-    description: 'An enchanting 18k gold-plated curb chain bracelet featuring a polished puffed heart charm. Designed with anti-tarnish coating for lasting everyday brilliance.',
+    description: 'Protection meets luxury. A twisted cable bangle featuring a stunning evil eye charm.',
     isNew: true,
     featured: true,
     rating: 4.9
   },
   {
     id: 'br-2',
-    name: 'Korean Style Tulip Bracelet',
+    name: 'Monstera Bloom Cuff Bracelet',
     price: 199,
     category: 'Bracelets',
     image: productBr1 ,
-    description: 'Delicate Korean aesthetic cable chain adorned with hand-enameled pastel tulip blossoms and shimmering micro-crystal dewdrops.',
+    description: 'Nature-inspired elegance for your wrist. A beautiful statement cuff featuring intricate monstera leaf details.',
     featured: true,
     rating: 4.8
   },
   {
     id: 'br-3',
-    name: 'CZ Stone Vine Bracelet',
-    price: 285,
+    name: 'The Golden Bamboo Bangle ',
+    price: 149,
     category: 'Bracelets',
     image:  productBr3,
-    description: 'An organic trailing vine design embellished with marquise-cut cubic zirconia crystals that shimmer like morning dew in the sunlight.',
+    description: 'Earthy texture meets high fashion. A textured gold bangle inspired by the organic beauty of bamboo.',
     rating: 4.9
   },
   {
     id: 'br-4',
-    name: 'Multicolor Crystal Charm Bracelet',
-    price: 256,
+    name: 'The Golden Nail Cuff Bracelet',
+    price: 149,
     category: 'Bracelets',
     image:  productBr4,
-    description: 'Playful yet sophisticated bracelet featuring multi-faceted pastel crystals in blush rose, champagne, and ocean azure set along a delicate gold-toned chain.',
+    description:'Bold, edgy, and iconic. A sleek industrial-style nail cuff for a confident look.',
     rating: 4.7
   },
   {
     id: 'br-5',
-    name: 'Red Tulip Floral Bracelet',
-    price: 221,
+    name: 'The Evil Eye Cable Bangle gold',
+    price: 299,
     category: 'Bracelets',
     image:  productBr5,
-    description: 'A vibrant scarlet enameled tulip bud suspended from an adjustable links chain. Perfect for adding a pop of romantic color to your wrist stack.',
+    description: 'Sleek, minimalist protection. A contemporary cable bangle with an embedded evil eye motif.',
     rating: 4.8
   },
   {
     id: 'br-6',
-    name: 'Minimal Gold Chain Bracelet',
-    price: 179,
+    name: 'The Flow Cuff Bracelet',
+    price: 199,
     category: 'Bracelets',
     image:  productBr6,
-    description: 'Understated luxury at its finest. An ultra-fine, shimmering twisted rope chain plated in warm 18k yellow gold with a lobster claw clasp.',
+    description: 'Fluid elegance and modern minimalism. A sleek, wavy cuff that mimics natural movement.',
     featured: true,
     rating: 4.9
   },
   {
     id: 'br-7',
-    name: 'Evil Eye Charm Bracelet',
-    price: 229,
+    name: 'The Icon Crystal Bangle',
+    price: 159,
     category: 'Bracelets',
     image: productBr7,
-    description: 'A protective talisman crafted with a deep cobalt and turquoise glass evil eye accented by pavé micro-zirconia stones on a slender gold chain.',
+    description: 'Timeless sparkle and glamour. A luxurious bangle studded with premium, shimmering crystals.',
     rating: 4.8
   },
   {
     id: 'br-8',
-    name: 'Pearl Layered Bracelet',
-    price: 249,
+    name: 'The Orbit Nail Cuff ',
+    price: 449,
     category: 'Bracelets',
     image:  productBr8,
-    description: 'Double-stranded elegance combining lustrous baroque faux pearls with a gleaming paperclip link chain. Includes an adjustable extension.',
+    description: 'A futuristic twist on a classic design. An interlocking nail cuff with an outer orbit ring.',
     isNew: true,
     rating: 4.9
   },
-  {
-    id: 'br-9',
-    name: 'Stainless Steel Emerald Bracelet',
-    price: 273,
-    category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?q=80&w=600&auto=format&fit=crop',
-    description: 'Tarnish-free and waterproof medical-grade stainless steel bracelet featuring an emerald-green baguette center stone bezel-set in brushed gold.',
-    rating: 4.9
-  },
+  
+  
   {
     id: 'br-10',
-    name: 'Butterfly Charm Bracelet',
-    price: 219,
+    name: 'The Evil Eye Cable Bangle Silver',
+    price: 299,
     category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=600&auto=format&fit=crop',
-    description: 'Whimsical openwork butterfly silhouette charm with iridescent mother-of-pearl inlay that catches the light from every perspective.',
-    rating: 4.7
+    image:  productBr5,
+    description: 'Sleek, minimalist protection. A contemporary cable bangle with an embedded evil eye motif. color - Silver',
+    rating: 4.8
   },
-  {
+  
+   {
     id: 'br-11',
-    name: 'Tennis Style Crystal Bracelet',
+    name: 'The Evil Eye Cable Bangle Rose',
     price: 299,
     category: 'Bracelets',
-    image: productBr7,
-    description: 'A classic continuous row of prong-set round brilliant Austrian crystals on a secure box clasp with dual safety latches.',
-    featured: true,
-    rating: 5.0
-  },
-  {
-    id: 'br-12',
-    name: 'Adjustable Couple Heart Bracelet',
-    price: 339,
-    category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?q=80&w=600&auto=format&fit=crop',
-    description: 'Interlocking twin hearts symbolizing eternal connection. Fully adjustable sliding bolo toggle fitting any wrist dimension effortlessly.',
+    image:  productBr5,
+    description: 'Sleek, minimalist protection. A contemporary cable bangle with an embedded evil eye motif. color Rose',
     rating: 4.8
-  },
-  {
-    id: 'br-13',
-    name: 'Floral Petal Bracelet',
-    price: 269,
-    category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&auto=format&fit=crop',
-    description: 'Delicate five-petal flower stations spaced evenly along a gold-dipped cable chain, accented with sparkling cubic zirconia centers.',
-    rating: 4.8
-  },
-  {
-    id: 'br-14',
-    name: 'Black Charm Bracelet',
-    price: 249,
-    category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=600&auto=format&fit=crop',
-    description: 'Chic modern gothic charm featuring faceted midnight-black onyx-style resin charms paired with sleek golden bead accents.',
-    rating: 4.7
-  },
-  {
-    id: 'br-15',
-    name: 'Personalized Name Charm Bracelet',
-    price: 299,
-    category: 'Bracelets',
-    image: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?q=80&w=600&auto=format&fit=crop',
-    description: 'Custom script charm bracelet plated in thick 18k gold on a sturdy oval link chain. Comes packaged in our signature luxury presentation case.',
-    isNew: true,
-    rating: 4.9
   },
 
   // ==========================================
