@@ -3,16 +3,16 @@ import { motion } from 'motion/react';
 import { Instagram, Heart, MessageCircle } from 'lucide-react';
 
 // Import generated images
-import ig1 from '../assets/images/ig_model_earrings_1787069850773.jpg';
-import ig2 from '../assets/images/ig_layered_necklaces_1787069876307.jpg';
-import ig3 from '../assets/images/ig_sketching_bts_1787069891265.jpg';
-import ig4 from '../assets/images/ig_ring_box_1787069914889.jpg';
+import ig1 from '../assets/images/instapost3.webp';
+import ig2 from '../assets/images/insta post.webp';
+import ig3 from '../assets/images/collection.png';
+import ig4 from '../assets/images/instapost2.webp';
 
 const IG_POSTS = [
-  { id: 1, img: ig1, likes: '2.4k', comments: '128' },
-  { id: 2, img: ig2, likes: '3.1k', comments: '245' },
-  { id: 3, img: ig3, likes: '1.8k', comments: '86' },
-  { id: 4, img: ig4, likes: '4.5k', comments: '312' },
+  { id: 1, img: ig1, likes: '40', comments: '28' },
+  { id: 2, img: ig2, likes: '37', comments: '45' },
+  { id: 3, img: ig3, likes: '18', comments: '56' },
+  { id: 4, img: ig4, likes: '45', comments: '12' },
 ];
 
 export function InstagramSection() {
