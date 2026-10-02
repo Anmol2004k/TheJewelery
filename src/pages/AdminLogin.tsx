@@ -143,7 +143,7 @@ export function AdminLogin() {
           Executive Admin Portal
         </h2>
         <p className="mt-2 text-center text-sm text-charcoal-light max-w-sm mx-auto">
-          Secure, role-protected administrative control center powered by Supabase Auth & PostgreSQL
+          Secure, role-protected administrative control center.
         </p>
       </div>
 
@@ -174,7 +174,7 @@ export function AdminLogin() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="theadultanmol@gmail.com"
+              placeholder="yourEmail@gmail.com"
             />
 
             <Input
@@ -194,7 +194,7 @@ export function AdminLogin() {
               {loading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Authenticating with Supabase...</span>
+                  <span>Authenticating...</span>
                 </>
               ) : (
                 <>
