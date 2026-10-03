@@ -105,19 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setUser(appUser);
 
-    // Sync with server store for admin overview
-    fetch('/api/users/sync', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: sbUser.id,
-        email,
-        displayName,
-        photoURL,
-        role: userRole,
-        createdAt: sbUser.created_at || new Date().toISOString(),
-      }),
-    }).catch((e) => console.warn('User admin sync notice:', e));
+  
 
     setLoading(false);
   };

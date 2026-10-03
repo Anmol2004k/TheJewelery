@@ -1,4 +1,8 @@
-import { supabase, isSupabaseConfigured, UserProfile } from '../lib/supabase';
+import {
+  supabase,
+  isSupabaseConfigured,
+  UserProfile,
+} from '../lib/supabase';
 
 export const profileService = {
   /**
@@ -12,12 +16,14 @@ export const profileService = {
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (error) {
+        console.warn('Get profile error:', error);
         return null;
       }
-      return data as UserProfile;
+
+      return data as UserProfile | null;
     } catch (err) {
       console.warn('Get profile error:', err);
       return null;
@@ -25,62 +31,75 @@ export const profileService = {
   },
 
   /**
-   * Upsert profile data
+   * Create or update profile
    */
-  async upsertProfile(profile: Partial<UserProfile> & { id: string; email: string }) {
+  async upsertProfile(
+    profile: Partial<UserProfile> & {
+      id: string;
+      email: string;
+    }
+  ) {
     if (!isSupabaseConfigured) return null;
 
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .upsert({
-          ...profile,
-          updated_at: new Date().toISOString(),
-        })
+        .upsert(
+          {
+            ...profile,
+            updated_at: new Date().toISOString(),
+          },
+          {
+            onConflict: 'id',
+          }
+        )
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.warn('Upsert profile error:', error);
+        return null;
+      }
+
       return data as UserProfile;
     } catch (err) {
-      console.warn('Upsert profile notice:', err);
+      console.warn('Upsert profile error:', err);
       return null;
     }
   },
 
   /**
-   * Fetch all user accounts (Admin)
+   * Fetch all user profiles.
+   * Admin access is controlled by Supabase RLS.
    */
   async getAllUsers(): Promise<any[]> {
-    if (isSupabaseConfigured) {
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .order('created_at', { ascending: false });
+    if (!isSupabaseConfigured) return [];
 
-        if (!error && data) {
-          return data.map((u: any) => ({
-            id: u.id,
-            email: u.email,
-            displayName: u.display_name || u.email.split('@')[0],
-            photoURL: u.avatar_url,
-            role: u.role || 'customer',
-            createdAt: u.created_at,
-            totalOrders: u.total_orders || 0,
-            totalSpend: u.total_spend || 0,
-          }));
-        }
-      } catch (err) {
-        console.warn('Supabase getAllUsers notice:', err);
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Supabase getAllUsers error:', error);
+        return [];
       }
-    }
 
-    const token = localStorage.getItem('adminToken');
-    const res = await fetch('/api/admin/users', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) return await res.json();
-    return [];
+      return (data || []).map((u: any) => ({
+        id: u.id,
+        email: u.email,
+        displayName: u.display_name || u.email?.split('@')[0] || 'User',
+        photoURL: u.avatar_url,
+        role: u.role || 'customer',
+        createdAt: u.created_at,
+        totalOrders: u.total_orders || 0,
+        totalSpend: u.total_spend || 0,
+      }));
+    } catch (err) {
+      console.error('Supabase getAllUsers error:', err);
+      return [];
+    }
   },
 };
+

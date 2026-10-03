@@ -37,6 +37,7 @@ export function AdminLogin() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!email || !password) {
       toast.error('Please enter your admin email and password.');
       return;
@@ -45,77 +46,103 @@ export function AdminLogin() {
     setLoading(true);
 
     try {
-      let isVerifiedAdmin = false;
-      let adminDisplayName = email.split('@')[0];
-      let token = '';
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim().toLowerCase(),
+        password,
+      });
 
-      // 1. Authenticate with Supabase Auth
-      if (isSupabaseConfigured) {
-        try {
-          const { data, error } = await supabase.auth.signInWithPassword({
-            email: email.trim().toLowerCase(),
-            password,
-          });
+      if (error) {
+        toast.error(error.message || 'Invalid email or password.');
+        return;
+      }
 
-          if (!error && data?.user) {
-            const userEmail = (data.user.email || '').toLowerCase();
-            const meta = data.user.user_metadata || {};
+      if (!data.user) {
+        toast.error('Authentication failed. Please try again.');
+        return;
+      }
 
-            // Check if designated admin
-            const isOwner = userEmail === 'theadultanmol@gmail.com' || meta.role === 'admin';
+      const sbUser = data.user;
+      const userEmail = (sbUser.email || '').toLowerCase();
+      const metadata = sbUser.user_metadata || {};
 
-            // Query profile role
-            const { data: prof } = await supabase
-              .from('profiles')
-              .select('role, display_name')
-              .eq('id', data.user.id)
-              .maybeSingle();
+      // Determine admin status from email and metadata
+      const isAdminEmail = userEmail === 'theadultanmol@gmail.com';
 
-            if (isOwner || prof?.role === 'admin') {
-              isVerifiedAdmin = true;
-              adminDisplayName = prof?.display_name || meta.full_name || userEmail;
-              token = data.session?.access_token || '';
-            } else {
-              toast.error('Access denied: This account does not have Administrator privileges.');
-              setLoading(false);
-              return;
-            }
-          }
-        } catch (sbErr) {
-          console.warn('Supabase auth attempt notice:', sbErr);
+      let userRole: 'customer' | 'admin' = isAdminEmail
+        ? 'admin'
+        : metadata.role === 'admin'
+          ? 'admin'
+          : 'customer';
+
+      const displayName = metadata.full_name || metadata.name || userEmail;
+      const photoURL = metadata.avatar_url || metadata.picture || '';
+
+      // Check database profile using supabase directly or profileService if available
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', sbUser.id)
+        .maybeSingle();
+
+      if (profileError) {
+        console.error('Admin profile check error:', profileError);
+      }
+
+      let activeProfile = profile;
+
+      if (activeProfile) {
+        // Admin email must always remain admin
+        if (isAdminEmail) {
+          userRole = 'admin';
+        } else {
+          userRole = activeProfile.role === 'admin' ? 'admin' : 'customer';
+        }
+      } else {
+        // Create profile if it doesn't exist
+        const { data: newProf, error: insertError } = await supabase
+          .from('profiles')
+          .upsert({
+            id: sbUser.id,
+            email: userEmail,
+            display_name: displayName,
+            avatar_url: photoURL,
+            role: userRole,
+          })
+          .select()
+          .single();
+
+        if (insertError) {
+          console.error('Profile creation error:', insertError);
+        } else {
+          activeProfile = newProf;
         }
       }
 
-      // 2. Validate with Backend Admin Authentication Route
-      const response = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          password,
-          supabaseToken: token,
-        }),
-      });
+      // Final Access Control Validation
+      const isOwner = userEmail === 'theadultanmol@gmail.com';
+      const hasAdminMetadata = metadata.role === 'admin';
+      const isProfileAdmin = activeProfile?.role === 'admin';
 
-      const data = await response.json();
-
-      if (response.ok && data.token) {
-        localStorage.setItem('adminToken', data.token);
-        localStorage.setItem('adminUsername', data.username || adminDisplayName);
-        toast.success(`Welcome back, ${data.username || adminDisplayName}!`);
-        navigate('/admin/dashboard');
-      } else if (isVerifiedAdmin && token) {
-        // Direct Supabase verified fallback
-        localStorage.setItem('adminToken', token);
-        localStorage.setItem('adminUsername', adminDisplayName);
-        toast.success(`Welcome back, ${adminDisplayName}!`);
-        navigate('/admin/dashboard');
-      } else {
-        toast.error(data.error || 'Authentication failed. Please verify your admin credentials.');
+      if (!isOwner && !hasAdminMetadata && !isProfileAdmin) {
+        await supabase.auth.signOut();
+        toast.error('Access denied. This account is not an administrator.');
+        return;
       }
-    } catch (err) {
+
+      const adminName =
+        activeProfile?.display_name ||
+        metadata.full_name ||
+        metadata.name ||
+        userEmail;
+
+      localStorage.setItem('adminUsername', adminName);
+
+      toast.success(`Welcome back, ${adminName}!`);
+
+      navigate('/admin/dashboard');
+    } catch (err: any) {
       console.error('Admin login error:', err);
-      toast.error('Network communication error. Please try again.');
+      toast.error(err?.message || 'Authentication failed.');
     } finally {
       setLoading(false);
     }
