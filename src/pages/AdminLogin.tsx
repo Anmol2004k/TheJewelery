@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
-import { Shield, Lock, ArrowRight, ShieldCheck, Mail } from 'lucide-react';
-import { supabase, isSupabaseConfigured, signInWithGoogle } from '../lib/supabase';
+import { Shield, Lock, ArrowRight, ShieldCheck } from 'lucide-react';
+import { supabase, signInWithGoogle } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
@@ -11,27 +11,17 @@ export function AdminLogin() {
   const [email, setEmail] = useState('theadultanmol@gmail.com');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const { user, isAdmin } = useAuth();
 
-  // If already authenticated as admin via Supabase, allow instant entry
+  // If already authenticated as admin via Supabase
   React.useEffect(() => {
     if (user && isAdmin) {
-      // Auto-set admin session
-      localStorage.setItem('adminUsername', user.displayName || user.email || 'Admin');
-      // If token not set, request admin session
-      fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user.email, userId: user.id, isSupabaseAuth: true }),
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.token) {
-            localStorage.setItem('adminToken', data.token);
-          }
-        })
-        .catch((e) => console.warn('Admin token sync notice:', e));
+      localStorage.setItem(
+        'adminUsername',
+        user.displayName || user.email || 'Admin'
+      );
     }
   }, [user, isAdmin]);
 
@@ -46,6 +36,7 @@ export function AdminLogin() {
     setLoading(true);
 
     try {
+      // 1. Authenticate using Supabase Auth
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim().toLowerCase(),
         password,
@@ -63,86 +54,55 @@ export function AdminLogin() {
 
       const sbUser = data.user;
       const userEmail = (sbUser.email || '').toLowerCase();
-      const metadata = sbUser.user_metadata || {};
 
-      // Determine admin status from email and metadata
-      const isAdminEmail = userEmail === 'theadultanmol@gmail.com';
-
-      let userRole: 'customer' | 'admin' = isAdminEmail
-        ? 'admin'
-        : metadata.role === 'admin'
-          ? 'admin'
-          : 'customer';
-
-      const displayName = metadata.full_name || metadata.name || userEmail;
-      const photoURL = metadata.avatar_url || metadata.picture || '';
-
-      // Check database profile using supabase directly or profileService if available
+      // 2. Get the user's profile from Supabase
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
-        .select('*')
+        .select('id, email, display_name, avatar_url, role')
         .eq('id', sbUser.id)
         .maybeSingle();
 
       if (profileError) {
         console.error('Admin profile check error:', profileError);
-      }
 
-      let activeProfile = profile;
-
-      if (activeProfile) {
-        // Admin email must always remain admin
-        if (isAdminEmail) {
-          userRole = 'admin';
-        } else {
-          userRole = activeProfile.role === 'admin' ? 'admin' : 'customer';
-        }
-      } else {
-        // Create profile if it doesn't exist
-        const { data: newProf, error: insertError } = await supabase
-          .from('profiles')
-          .upsert({
-            id: sbUser.id,
-            email: userEmail,
-            display_name: displayName,
-            avatar_url: photoURL,
-            role: userRole,
-          })
-          .select()
-          .single();
-
-        if (insertError) {
-          console.error('Profile creation error:', insertError);
-        } else {
-          activeProfile = newProf;
-        }
-      }
-
-      // Final Access Control Validation
-      const isOwner = userEmail === 'theadultanmol@gmail.com';
-      const hasAdminMetadata = metadata.role === 'admin';
-      const isProfileAdmin = activeProfile?.role === 'admin';
-
-      if (!isOwner && !hasAdminMetadata && !isProfileAdmin) {
         await supabase.auth.signOut();
-        toast.error('Access denied. This account is not an administrator.');
+
+        toast.error('Unable to verify admin profile.');
         return;
       }
 
-      const adminName =
-        activeProfile?.display_name ||
-        metadata.full_name ||
-        metadata.name ||
-        userEmail;
+      // 3. Admin role MUST come from the database
+      if (!profile || profile.role !== 'admin') {
+        await supabase.auth.signOut();
 
+        toast.error(
+          'Access denied. This account is not an administrator.'
+        );
+
+        return;
+      }
+
+      // 4. Admin verified
+      const adminName =
+        profile.display_name ||
+        profile.email ||
+        userEmail ||
+        'Admin';
+
+      // This is only for UI/display purposes.
+      // It is NOT used for authentication/security.
       localStorage.setItem('adminUsername', adminName);
 
       toast.success(`Welcome back, ${adminName}!`);
 
+      // 5. Go to admin dashboard
       navigate('/admin/dashboard');
     } catch (err: any) {
       console.error('Admin login error:', err);
-      toast.error(err?.message || 'Authentication failed.');
+
+      toast.error(
+        err?.message || 'Authentication failed. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
@@ -150,10 +110,16 @@ export function AdminLogin() {
 
   const handleGoogleAdminLogin = async () => {
     setLoading(true);
+
     try {
       await signInWithGoogle('/admin/dashboard');
     } catch (err: any) {
-      toast.error(err.message || 'Google admin sign-in failed');
+      console.error('Google admin login error:', err);
+
+      toast.error(
+        err?.message || 'Google admin sign-in failed'
+      );
+
       setLoading(false);
     }
   };
@@ -166,9 +132,11 @@ export function AdminLogin() {
             <Shield className="w-8 h-8 text-gold" />
           </div>
         </div>
+
         <h2 className="mt-5 text-center text-3xl font-playfair font-bold text-charcoal tracking-tight">
           Executive Admin Portal
         </h2>
+
         <p className="mt-2 text-center text-sm text-charcoal-light max-w-sm mx-auto">
           Secure, role-protected administrative control center.
         </p>
@@ -178,12 +146,17 @@ export function AdminLogin() {
         <div className="bg-white py-8 px-6 shadow-xl rounded-xl sm:px-10 border border-gray-100 relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-royal via-gold to-royal" />
 
-          {/* If already logged in as Admin */}
+          {/* Already logged in as Admin */}
           {user && isAdmin && (
             <div className="mb-6 p-4 rounded-lg bg-gold/10 border border-gold/30 text-center">
               <p className="text-xs text-charcoal mb-2">
-                Currently signed in as <strong className="text-royal">{user.displayName || user.email}</strong> (Admin).
+                Currently signed in as{' '}
+                <strong className="text-royal">
+                  {user.displayName || user.email}
+                </strong>{' '}
+                (Admin).
               </p>
+
               <Button
                 type="button"
                 onClick={() => navigate('/admin/dashboard')}
@@ -233,40 +206,52 @@ export function AdminLogin() {
             </Button>
           </form>
 
-          {/* Google Admin Login Option */}
+          {/* Google Admin Login */}
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-200" />
               </div>
+
               <div className="relative flex justify-center text-xs uppercase tracking-wider">
-                <span className="bg-white px-2 text-gray-500">Or use Admin SSO</span>
+                <span className="bg-white px-2 text-gray-500">
+                  Or use Admin SSO
+                </span>
               </div>
             </div>
 
             <button
               type="button"
               onClick={handleGoogleAdminLogin}
-              className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg text-xs font-semibold uppercase tracking-wider text-charcoal hover:bg-gray-50 transition-colors shadow-2xs cursor-pointer"
+              disabled={loading}
+              className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg text-xs font-semibold uppercase tracking-wider text-charcoal hover:bg-gray-50 transition-colors shadow-2xs cursor-pointer disabled:opacity-50"
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" aria-label="Google logo">
+              <svg
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                aria-label="Google logo"
+              >
                 <path
                   fill="#4285F4"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                 />
+
                 <path
                   fill="#34A853"
                   d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
                 />
+
                 <path
                   fill="#FBBC05"
                   d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
                 />
+
                 <path
                   fill="#EA4335"
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                 />
               </svg>
+
               <span>Sign in with Google Admin</span>
             </button>
           </div>

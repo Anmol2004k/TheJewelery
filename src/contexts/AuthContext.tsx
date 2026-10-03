@@ -12,7 +12,7 @@ import { profileService } from '../services/profileService';
 
 export interface AppUser {
   id: string;
-  uid: string; // Alias for backward compatibility
+  uid: string;
   email?: string;
   displayName?: string;
   photoURL?: string;
@@ -30,7 +30,11 @@ interface AuthContextType {
   signUpWithEmail: (
     email: string,
     pass: string,
-    meta?: { firstName?: string; lastName?: string; fullName?: string }
+    meta?: {
+      firstName?: string;
+      lastName?: string;
+      fullName?: string;
+    }
   ) => Promise<any>;
   logOut: () => Promise<void>;
 }
@@ -48,7 +52,9 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -63,39 +69,63 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const sbUser = session.user;
     const metadata = sbUser.user_metadata || {};
+
     const email = sbUser.email || '';
+
     const displayName =
       metadata.full_name ||
       metadata.name ||
       metadata.display_name ||
       `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim() ||
       email.split('@')[0];
-    const photoURL = metadata.avatar_url || metadata.picture || '';
 
-    // Check if designated admin
-    const isAdminEmail = email.toLowerCase() === 'theadultanmol@gmail.com';
-    let userRole: 'customer' | 'admin' = isAdminEmail ? 'admin' : (metadata.role as any) || 'customer';
+    const photoURL =
+      metadata.avatar_url ||
+      metadata.picture ||
+      '';
 
-    // Try fetching database profile
-    let dbProfile = await profileService.getProfile(sbUser.id);
+    /*
+     * IMPORTANT:
+     * Admin status is determined from the database profile.
+     *
+     * We do NOT use:
+     * - admin email
+     * - user metadata role
+     * - localStorage adminToken
+     * - old /api/users/sync endpoint
+     *
+     * Supabase Auth identifies the user.
+     * profiles.role determines the user's application role.
+     */
+
+    let dbProfile = null;
+
+    try {
+      dbProfile = await profileService.getProfile(sbUser.id);
+    } catch (error) {
+      console.error('Profile fetch error:', error);
+    }
+
     if (dbProfile) {
-      userRole = dbProfile.role || userRole;
       setProfile(dbProfile);
     } else {
-      // Upsert default profile
-      const newProf = await profileService.upsertProfile({
-        id: sbUser.id,
-        email,
-        display_name: displayName,
-        avatar_url: photoURL,
-        role: userRole,
-      });
-      if (newProf) setProfile(newProf);
+      /*
+       * Do not automatically create an admin profile here.
+       *
+       * If a profile does not exist, treat the user as a customer
+       * until a valid profile is created through the proper flow.
+       */
+      setProfile(null);
     }
+
+    const userRole: 'customer' | 'admin' =
+      dbProfile?.role === 'admin'
+        ? 'admin'
+        : 'customer';
 
     const appUser: AppUser = {
       id: sbUser.id,
-      uid: sbUser.id, // Backward compatibility
+      uid: sbUser.id,
       email,
       displayName,
       photoURL,
@@ -104,61 +134,81 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     setUser(appUser);
-
-  
-
     setLoading(false);
   };
 
   useEffect(() => {
-    // 1. Check initial active session
+    // Check initial active Supabase session
     supabase.auth.getSession().then(({ data: { session } }) => {
       syncUserSession(session);
     });
 
-    // 2. Subscribe to auth state changes
+    // Listen for Supabase authentication changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      syncUserSession(session);
-    });
+    } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        syncUserSession(session);
+      }
+    );
 
     return () => {
       subscription.unsubscribe();
     };
   }, []);
 
-  const handleGoogleSignIn = async (redirectPath: string = '/orders') => {
+  const handleGoogleSignIn = async (
+    redirectPath: string = '/orders'
+  ) => {
     return sbSignInWithGoogle(redirectPath);
   };
 
-  const handleEmailSignIn = async (email: string, pass: string) => {
+  const handleEmailSignIn = async (
+    email: string,
+    pass: string
+  ) => {
     const res = await sbSignInWithEmail(email, pass);
+
     if (res.session) {
       await syncUserSession(res.session);
     }
+
     return res;
   };
 
   const handleEmailSignUp = async (
     email: string,
     pass: string,
-    meta?: { firstName?: string; lastName?: string; fullName?: string }
+    meta?: {
+      firstName?: string;
+      lastName?: string;
+      fullName?: string;
+    }
   ) => {
-    const res = await sbSignUpWithEmail(email, pass, meta);
+    const res = await sbSignUpWithEmail(
+      email,
+      pass,
+      meta
+    );
+
     if (res.session) {
       await syncUserSession(res.session);
     }
+
     return res;
   };
 
   const handleLogOut = async () => {
     await sbLogOut();
+
     setUser(null);
     setProfile(null);
   };
 
-  const isAdmin = user?.role === 'admin' || user?.email?.toLowerCase() === 'theadultanmol@gmail.com';
+  /*
+   * Admin status comes ONLY from profiles.role.
+   */
+  const isAdmin = user?.role === 'admin';
 
   return (
     <AuthContext.Provider
@@ -177,3 +227,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </AuthContext.Provider>
   );
 };
+
